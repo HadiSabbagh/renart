@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import json
-
+import requests
+import math
 app = FastAPI()
 
 # Enable CORS to allow frontend requests
@@ -13,16 +14,29 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+gold_price_url = "https://api.gold-api.com/price/XAU" # price is in oz
+
+
 # Load products from JSON
 with open('../common/products.json', 'r') as file:
     products = json.load(file)
 
 @app.get("/api/products")
 async def get_products():
-    # Convert popularity score to out of 5
+    
+    try:
+        response = requests.get(gold_price_url)
+        
+        data = response.json()
+        gold_price = data['price'] / 31.1035 # converted to price per gram
+    
+    except requests.exceptions.RequestException as e:
+        print(f"Error occured while trying to retrieve gold price: {e}")
+        
     for product in products:
-        product['popularityScore'] = round((product['popularityScore'] + 1) * product['weight'] ) # need to multiply by real time gold price
+        product['price'] = math.floor((product['popularityScore'] + 1) * product['weight'] * gold_price)
     return products
+
 
 # Bonus: Filtering endpoint
 @app.get("/api/products/filter")

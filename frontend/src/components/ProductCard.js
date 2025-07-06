@@ -1,9 +1,9 @@
 import { useState } from "react";
-
+import Image from "next/image";
 const ProductCard = ({ product }) => {
   const [color, setColor] = useState("yellow");
-  const rawRating = product.popularityScore * 100;
-  const rating = Math.round(rawRating) % 5;
+  const rawRating = product.popularityScore 
+  const rating = Math.round(rawRating*5)
   const getColorLabel = (c) => {
     return c === "yellow"
       ? "Yellow Gold"
@@ -68,10 +68,13 @@ const ProductCard = ({ product }) => {
   return (
     <div className="flex flex-col rounded-lg ">
       {/* Product Image */}
-      <img
+      <Image
         src={product.images[color]}
         alt={product.name}
+        width={400}
+        height={256}
         className="w-full h-64 object-cover rounded-md mb-4"
+        priority
       />
 
       {/* Product Info */}
