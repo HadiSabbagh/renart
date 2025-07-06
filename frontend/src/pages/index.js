@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import ProductCarousel from '../components/ProductCarousel';
+import { useState, useEffect } from "react";
+import ProductCarousel from "../components/ProductCarousel";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -15,10 +15,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
-      <h1 className=" mt-10 text-3xl text-black font-avenir font-book text-center mb-6">Product List</h1>
-      <div className="mb-6 flex justify-center space-x-4">
-
-      </div>
+      <h1 className=" mt-10 text-3xl text-black font-avenir font-book text-center mb-6">
+        Product List
+      </h1>
+      <div className="mb-6 flex justify-center space-x-4"></div>
       <ProductCarousel products={products} />
     </div>
   );
